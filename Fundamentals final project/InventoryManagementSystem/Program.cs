@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-internal partial class Program
+﻿internal partial class Program
 {
     private static List<Product> Inventory = new List<Product>();
     private static void Main(string[] args)
