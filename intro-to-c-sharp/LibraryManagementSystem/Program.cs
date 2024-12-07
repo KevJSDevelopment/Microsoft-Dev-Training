@@ -1,4 +1,6 @@
-﻿internal class Program
+﻿
+
+internal class Program
 {
     private static List<Book> Books = new List<Book>();
     private static void Main(string[] args)
@@ -12,8 +14,11 @@
             Console.WriteLine("Would would you like to do?:");
             Console.WriteLine("1. Add a book");
             Console.WriteLine("2. Remove a book");
-            Console.WriteLine("3. View all books");
-            Console.WriteLine("4. Exit");
+            Console.WriteLine("3. Borrow a book");
+            Console.WriteLine("4. Return a book");
+            Console.WriteLine("5. View all books");
+            Console.WriteLine("6. Search for a book");
+            Console.WriteLine("7. Exit");
             string? action = Console.ReadLine();
 
             switch (action)
@@ -25,13 +30,22 @@
                     RemoveBook();
                     break;
                 case "3":
-                    ViewBooks();
+                    BorrowBook();
                     break;
                 case "4":
+                    ReturnBook();
+                    break;
+                case "5":
+                    ViewBooks();
+                    break;
+                case "6":
+                    SearchBooks();
+                    break;
+                case "7":
                     running = false;
                     break;
                 default:
-                    Console.WriteLine("Invalid input, please enter a valid input by entering a number betweeen 1 and 4");
+                    Console.WriteLine("Invalid input, please enter a valid input by entering a number betweeen 1 and 7");
                     break;
 
             }
@@ -81,9 +95,34 @@
             Console.WriteLine("\nPress any key to return to menu.");
             Console.ReadKey();
         }
+
+        void SearchBooks()
+        {
+            Console.Clear();
+            Console.WriteLine("Please enter a book name");
+            string? name = Console.ReadLine();
+
+            Book? book1 = Books.Find(book => book.Title == name);
+            if(book1 == null){ 
+                Console.WriteLine("Book not found in catalog. Press any key to return to menu");
+            }
+            else Console.WriteLine($"{book1.Title} was found and is available. Press any key to return to menu");
+
+            Console.ReadKey();
+        }
+        void ReturnBook()
+        {
+            throw new NotImplementedException();
+        }
+
+        void BorrowBook()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 
 class Book {
     public string? Title { get; set; }
+    public bool IsBorrowed { get; set; }
 }
