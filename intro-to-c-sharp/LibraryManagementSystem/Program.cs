@@ -94,15 +94,6 @@ internal class Program
             Close();
         }
 
-        Book? SearchBooks()
-        {
-            Console.Clear();
-            Console.WriteLine("Please enter a book name");
-            string? name = Console.ReadLine();
-
-            Book? book1 = Books.Find(book => book.Title == name);
-            return book1;
-        }
         void ReturnBook()
         {
             Console.Clear();
@@ -118,6 +109,12 @@ internal class Program
         void BorrowBook()
         {
             Console.Clear();
+            if(CheckedOutBookCount() >= 3) {
+                Console.WriteLine("Max checkout limit reached. You cannot borrow more books when you already have 3 books borrowed.");
+                Close();
+                return;
+            }
+            
             Book? book = SearchBooks();
             if(book == null || book.IsBorrowed) Console.WriteLine("Book cannot be checked out, verify the book you are trying to return exists in the catalog and is available to check out");
             else {
@@ -133,6 +130,21 @@ internal class Program
             else if(book.IsBorrowed == true) Console.WriteLine($"{book.Title} was found but it is already checked out");
             else Console.WriteLine($"{book.Title} was found and is available");
             Close();
+        }
+
+        Book? SearchBooks()
+        {
+            Console.Clear();
+            Console.WriteLine("Please enter a book name");
+            string? name = Console.ReadLine();
+
+            Book? book1 = Books.Find(book => book.Title == name);
+            return book1;
+        }
+
+        int CheckedOutBookCount()
+        {
+            return Books.Where(book => book.IsBorrowed == true).Count();
         }
 
         void Close()
