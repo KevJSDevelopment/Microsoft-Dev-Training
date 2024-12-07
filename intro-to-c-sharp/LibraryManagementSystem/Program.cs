@@ -1,5 +1,6 @@
 ﻿
 
+
 internal class Program
 {
     private static List<Book> Books = new List<Book>();
@@ -39,7 +40,8 @@ internal class Program
                     ViewBooks();
                     break;
                 case "6":
-                    SearchBooks();
+                    Book? book = SearchBooks();
+                    CheckSearchedBook(book);
                     break;
                 case "7":
                     running = false;
@@ -56,68 +58,87 @@ internal class Program
             Console.Clear();
             Console.WriteLine("Please enter a book name");
             string? name = Console.ReadLine();
-            if(name == null) Console.WriteLine("You must enter a book name to add a book. Press any key to return to menu");
+            if(name == null) Console.WriteLine("You must enter a book name to add a book.");
             else {
-                Book book1 = new Book { Title = name };
+                Book book1 = new Book { Title = name, IsBorrowed = false };
 
                 Books.Add(book1);
-                Console.WriteLine($"{book1.Title} was added to the list of books. Press any key to return to menu.");
+                Console.WriteLine($"{book1.Title} was added to the list of books.");
             }
-            Console.ReadKey();
+            Close();
         }
 
         void RemoveBook()
         {
             Console.Clear();
-            Console.WriteLine("Please enter a book name");
-            string? name = Console.ReadLine();
-
-            Book? book1 = Books.Find(book => book.Title == name);
-            if(book1 == null) Console.WriteLine("Book not found, please check your spelling and make sure the book exists in the catalog before trying to remove. Press any key to return to menu");
+            Book? book1 = SearchBooks();
+            if(book1 == null) Console.WriteLine("Book not found, please check your spelling and make sure the book exists in the catalog before trying to remove.");
             else {
                 Books.Remove(book1);
-                Console.WriteLine($"{book1.Title} was removed from the list of books. Press any key to return to menu.");
+                Console.WriteLine($"{book1.Title} was removed from the list of books.");
             }
-            Console.ReadKey();
+            Close();
         }
 
         void ViewBooks()
         {
             Console.Clear();
-            Console.WriteLine("List of All Books Available:");
+            Console.WriteLine("List of All Books In Catalog:");
             Console.WriteLine("============================");
 
             for(int i = 0; i < Books.Count; i++)
             {
-                Console.WriteLine($"{Books[i].Title}");
+                string checkedText = Books[i].IsBorrowed ? "[Checked Out]" : "[Available]";
+                Console.WriteLine($"{Books[i].Title} is {checkedText}");
             }
-
-            Console.WriteLine("\nPress any key to return to menu.");
-            Console.ReadKey();
+            Close();
         }
 
-        void SearchBooks()
+        Book? SearchBooks()
         {
             Console.Clear();
             Console.WriteLine("Please enter a book name");
             string? name = Console.ReadLine();
 
             Book? book1 = Books.Find(book => book.Title == name);
-            if(book1 == null){ 
-                Console.WriteLine("Book not found in catalog. Press any key to return to menu");
-            }
-            else Console.WriteLine($"{book1.Title} was found and is available. Press any key to return to menu");
-
-            Console.ReadKey();
+            return book1;
         }
         void ReturnBook()
         {
-            throw new NotImplementedException();
+            Console.Clear();
+            Book? book = SearchBooks();
+            if(book == null || !book.IsBorrowed) Console.WriteLine("Book not returnable, verify the book you are trying to return exists in the catalog and has been checked out.");
+            else {
+                book.IsBorrowed = false;
+                Console.WriteLine($"You have successfully returned {book.Title}");
+            }
+            Close();
         }
 
         void BorrowBook()
         {
-            throw new NotImplementedException();
+            Console.Clear();
+            Book? book = SearchBooks();
+            if(book == null || book.IsBorrowed) Console.WriteLine("Book cannot be checked out, verify the book you are trying to return exists in the catalog and is available to check out");
+            else {
+                book.IsBorrowed = true;
+                Console.WriteLine($"You have successfully checked out {book.Title}");
+            }
+            Close();
+        }
+        
+        void CheckSearchedBook(Book? book)
+        {
+            if(book == null) Console.WriteLine("Book not found in catalog.");
+            else if(book.IsBorrowed == true) Console.WriteLine($"{book.Title} was found but it is already checked out");
+            else Console.WriteLine($"{book.Title} was found and is available");
+            Close();
+        }
+
+        void Close()
+        {
+            Console.WriteLine("\nPress any key to return to menu.");
+            Console.ReadKey();
         }
     }
 }
