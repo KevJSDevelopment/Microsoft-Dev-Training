@@ -14,7 +14,7 @@
             Console.WriteLine("2. Remove a book");
             Console.WriteLine("3. View all books");
             Console.WriteLine("4. Exit");
-            string action = Console.ReadLine();
+            string? action = Console.ReadLine();
 
             switch (action)
             {
@@ -41,12 +41,14 @@
         {
             Console.Clear();
             Console.WriteLine("Please enter a book name");
-            string name = Console.ReadLine();
+            string? name = Console.ReadLine();
+            if(name == null) Console.WriteLine("You must enter a book name to add a book. Press any key to return to menu");
+            else {
+                Book book1 = new Book { Title = name };
 
-            Book book1 = new Book { Title = name };
-
-            Books.Add(book1);
-            Console.WriteLine($"{book1.Title} was added to the list of books. Press any key to return to menu.");
+                Books.Add(book1);
+                Console.WriteLine($"{book1.Title} was added to the list of books. Press any key to return to menu.");
+            }
             Console.ReadKey();
         }
 
@@ -54,9 +56,9 @@
         {
             Console.Clear();
             Console.WriteLine("Please enter a book name");
-            string name = Console.ReadLine();
+            string? name = Console.ReadLine();
 
-            Book book1 = Books.Find(book => book.Title == name);
+            Book? book1 = Books.Find(book => book.Title == name);
             if(book1 == null) Console.WriteLine("Book not found, please check your spelling and make sure the book exists in the catalog before trying to remove. Press any key to return to menu");
             else {
                 Books.Remove(book1);
@@ -83,5 +85,5 @@
 }
 
 class Book {
-    public string Title { get; set; }
+    public string? Title { get; set; }
 }
