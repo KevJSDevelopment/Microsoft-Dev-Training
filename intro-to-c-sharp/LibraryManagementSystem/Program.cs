@@ -1,7 +1,4 @@
-﻿
-
-
-internal class Program
+﻿internal class Program
 {
     private static List<Book> Books = new List<Book>();
     private static void Main(string[] args)
