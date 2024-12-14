@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyWebApi", "..\backend-deve
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiCRUD", "..\backend-development\module-2\WebApiCRUD\WebApiCRUD.csproj", "{D849A0F0-9BF4-4B91-95C4-059D345D0761}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerializationPractice", "..\backend-development\module-3\SerializationPractice\SerializationPractice.csproj", "{DC758406-C736-4133-9CEF-7914B8A5BD75}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{D849A0F0-9BF4-4B91-95C4-059D345D0761}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D849A0F0-9BF4-4B91-95C4-059D345D0761}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D849A0F0-9BF4-4B91-95C4-059D345D0761}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC758406-C736-4133-9CEF-7914B8A5BD75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC758406-C736-4133-9CEF-7914B8A5BD75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC758406-C736-4133-9CEF-7914B8A5BD75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC758406-C736-4133-9CEF-7914B8A5BD75}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

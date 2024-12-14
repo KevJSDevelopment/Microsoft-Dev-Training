@@ -1,0 +1,10 @@
+###
+GET http://localhost:5159/manual-json
+###
+GET http://localhost:5159/custom-json
+###
+GET http://localhost:5159/json
+###
+GET http://localhost:5159/auto
+###
+GET http://localhost:5159/xml
