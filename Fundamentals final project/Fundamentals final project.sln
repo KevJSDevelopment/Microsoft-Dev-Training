@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiCRUD", "..\backend-de
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerializationPractice", "..\backend-development\module-3\SerializationPractice\SerializationPractice.csproj", "{DC758406-C736-4133-9CEF-7914B8A5BD75}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerializationConsoleApp", "..\backend-development\module-3\SerializationConsoleApp\SerializationConsoleApp.csproj", "{C5356B60-CE9C-4B0A-A6F2-CB178041BA07}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{DC758406-C736-4133-9CEF-7914B8A5BD75}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC758406-C736-4133-9CEF-7914B8A5BD75}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DC758406-C736-4133-9CEF-7914B8A5BD75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5356B60-CE9C-4B0A-A6F2-CB178041BA07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5356B60-CE9C-4B0A-A6F2-CB178041BA07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5356B60-CE9C-4B0A-A6F2-CB178041BA07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5356B60-CE9C-4B0A-A6F2-CB178041BA07}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
