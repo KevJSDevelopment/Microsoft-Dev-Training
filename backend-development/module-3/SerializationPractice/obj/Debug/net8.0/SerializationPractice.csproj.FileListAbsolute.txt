@@ -24,3 +24,11 @@ C:\Users\Kshhn\source\repos\Full stack dev projects\backend-development\module-3
 C:\Users\Kshhn\source\repos\Full stack dev projects\backend-development\module-3\SerializationPractice\obj\Debug\net8.0\SerializationPractice.pdb
 C:\Users\Kshhn\source\repos\Full stack dev projects\backend-development\module-3\SerializationPractice\obj\Debug\net8.0\SerializationPractice.genruntimeconfig.cache
 C:\Users\Kshhn\source\repos\Full stack dev projects\backend-development\module-3\SerializationPractice\obj\Debug\net8.0\ref\SerializationPractice.dll
+C:\Users\Kshhn\source\repos\Full stack dev projects\backend-development\module-3\SerializationPractice\bin\Debug\net8.0\Microsoft.AspNetCore.OpenApi.dll
+C:\Users\Kshhn\source\repos\Full stack dev projects\backend-development\module-3\SerializationPractice\bin\Debug\net8.0\Microsoft.OpenApi.dll
+C:\Users\Kshhn\source\repos\Full stack dev projects\backend-development\module-3\SerializationPractice\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\Kshhn\source\repos\Full stack dev projects\backend-development\module-3\SerializationPractice\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\Kshhn\source\repos\Full stack dev projects\backend-development\module-3\SerializationPractice\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\Kshhn\source\repos\Full stack dev projects\backend-development\module-3\SerializationPractice\obj\Debug\net8.0\SerializationPractice.csproj.AssemblyReference.cache
+C:\Users\Kshhn\source\repos\Full stack dev projects\backend-development\module-3\SerializationPractice\obj\Debug\net8.0\SerializationPractice.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\Kshhn\source\repos\Full stack dev projects\backend-development\module-3\SerializationPractice\obj\Debug\net8.0\Serializ.1197D1DE.Up2Date

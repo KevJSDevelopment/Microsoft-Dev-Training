@@ -1,10 +1,23 @@
 using System.Text.Json;
 using System.Xml.Serialization;
+using Microsoft.AspNetCore.OpenApi;
+using Swashbuckle.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
 var app = builder.Build();
 
 var samplePerson = new Person {UserName = "Kevin", UserAge = 28 };
+
+
+if(app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
 app.MapGet("/", () => "Hello World!");
 
@@ -29,7 +42,14 @@ app.MapGet("/json", () => {
 //.NET serializes to json by default, you only use the above options if customization is needed.
 app.MapGet("/auto", () => {
     return samplePerson;
-});
+}).WithOpenApi(operation => {
+    //operation.Parameters[0].Description = "The sample person json object";
+    operation.Summary = "Get a single person";
+    operation.Description = "Returns a single blog";
+    return operation;
+}).Produces<Person>(
+    StatusCodes.Status200OK
+).Produces(StatusCodes.Status404NotFound);
 
 //xml serializer
 app.MapGet("/xml", () => {
