@@ -1,9 +1,6 @@
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHttpLogging((o) => {});
 var app = builder.Build();
-
-
-
 /* 
     Middleware handles logic in order it is called. Meaning all logic after next.Invoke will occur after the next.Invoke is fully completed.
     

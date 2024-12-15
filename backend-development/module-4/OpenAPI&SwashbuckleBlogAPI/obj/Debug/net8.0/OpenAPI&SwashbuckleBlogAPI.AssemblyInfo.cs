@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("OpenAPI&SwashbuckleBlogAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+866761a1549537a0359612d10d4d63f8000a7c50")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3dd8cf11c402eb3cd19c37b3f0e1675796ad01e0")]
 [assembly: System.Reflection.AssemblyProductAttribute("OpenAPI&SwashbuckleBlogAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("OpenAPI&SwashbuckleBlogAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
