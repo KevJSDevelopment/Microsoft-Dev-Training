@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerializationPractice", "..
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerializationConsoleApp", "..\backend-development\module-3\SerializationConsoleApp\SerializationConsoleApp.csproj", "{C5356B60-CE9C-4B0A-A6F2-CB178041BA07}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecuringSerialization&Deserialization", "..\backend-development\module-3\SecuringSerialization&Deserialization\SecuringSerialization&Deserialization.csproj", "{881F1A28-991B-42C9-9142-3360F9DEBA76}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{C5356B60-CE9C-4B0A-A6F2-CB178041BA07}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C5356B60-CE9C-4B0A-A6F2-CB178041BA07}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C5356B60-CE9C-4B0A-A6F2-CB178041BA07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{881F1A28-991B-42C9-9142-3360F9DEBA76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{881F1A28-991B-42C9-9142-3360F9DEBA76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{881F1A28-991B-42C9-9142-3360F9DEBA76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{881F1A28-991B-42C9-9142-3360F9DEBA76}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
