@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("WebApiCRUD")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4d5db6d45e61fea1a65d4fe5a3e42794b8e95f7a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+866761a1549537a0359612d10d4d63f8000a7c50")]
 [assembly: System.Reflection.AssemblyProductAttribute("WebApiCRUD")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WebApiCRUD")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
