@@ -136,6 +136,7 @@ app.MapDelete("/users/{id}", Results<NotFound, NoContent, ProblemHttpResult>(int
 });
 
 app.UseHttpsRedirection();
+app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
