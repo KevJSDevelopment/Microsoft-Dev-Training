@@ -1,17 +1,13 @@
-﻿@page "/"
-
-@code {
-
+﻿@code {
     private List<Recipe> recipes = new()
     {
         new Recipe() { Id = 1, Name = "Spaghetti", Description = "Italian dish" },
         new Recipe() { Id = 2, Name = "Chicken Curry", Description = "Indian Dish" }
     };
 
-    private Recipe selectedRecipe;
+}
 
-    private void SelectRecipe(Recipe recipe)
-    {
-        selectedRecipe = recipe;
-    }
+@foreach (var recipe in recipes)
+{
+    <NavLink href="@($"/recipe/{recipe.Id}")" Match="NavLinkMatch.Prefix">View Details</NavLink>
 }
