@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorServerApp", "BlazorSe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorPerformanceApp", "BlazorPerformanceApp\BlazorPerformanceApp.csproj", "{25BD94FA-56CC-4372-A40F-DBFF7C527060}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventEase", "EventEase\EventEase.csproj", "{A2BF6B16-06AF-4179-9DB3-98A063C4239C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +34,10 @@ Global
 		{25BD94FA-56CC-4372-A40F-DBFF7C527060}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{25BD94FA-56CC-4372-A40F-DBFF7C527060}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{25BD94FA-56CC-4372-A40F-DBFF7C527060}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2BF6B16-06AF-4179-9DB3-98A063C4239C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2BF6B16-06AF-4179-9DB3-98A063C4239C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2BF6B16-06AF-4179-9DB3-98A063C4239C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2BF6B16-06AF-4179-9DB3-98A063C4239C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
