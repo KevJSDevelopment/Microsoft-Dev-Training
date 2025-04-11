@@ -1,7 +1,19 @@
 ﻿@page "/"
+@using EventEase.Models
 
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
+<ul>
+    @foreach(var eventObj in Events)
+    {
+        <EventCard Event="eventObj" />
+    }
+</ul>
 
-Welcome to your new app.
+@code {
+    private List<Event> Events = new()
+    {
+        new Event { Id = 1, Name = "DC Cherry Blossom Festival", StartDate = new DateTime(2024, 04, 01), Location = "Washington DC" },
+        new Event { Id = 2, Name = "Coachella", StartDate = new DateTime(2024, 04, 11), Location = "Indio California" }
+    };
+}
