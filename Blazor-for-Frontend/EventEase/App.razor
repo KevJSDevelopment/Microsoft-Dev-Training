@@ -1,4 +1,7 @@
-﻿<Router AppAssembly="@typeof(App).Assembly">
+﻿@inject IJSRuntime JSRuntime
+@implements IDisposable
+
+<Router AppAssembly="@typeof(App).Assembly">
     <Found Context="routeData">
         <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
         <FocusOnNavigate RouteData="@routeData" Selector="h1" />
@@ -10,3 +13,21 @@
         </LayoutView>
     </NotFound>
 </Router>
+
+@code {
+    private DotNetObjectReference<App> objRef;
+    
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            objRef = DotNetObjectReference.Create(this);
+            await JSRuntime.InvokeVoidAsync("setupStorageListener", objRef);
+        }
+    }
+    
+    public void Dispose()
+    {
+        objRef?.Dispose();
+    }
+}

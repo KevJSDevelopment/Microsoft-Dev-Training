@@ -1,0 +1,87 @@
+﻿@using EventEase.Services
+@using EventEase.Models
+@inject IUserSessionService UserSessionService
+@inject IJSRuntime JSRuntime
+@implements IDisposable
+
+<div class="user-session">
+    @if (isLoggedIn)
+    {
+        <div>
+            <div type="button" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                @userName
+            </div>
+            <button class="dropdown-item text-secondary" @onclick="HandleLogout">Logout</button>
+        </div>
+    }
+    else
+    {
+        <button class="dropdown-item text-primary" @onclick="HandleLogin">Login</button>
+    }
+</div>
+
+@code {
+    [Inject]
+    private NavigationManager Navigation { get; set; }
+    
+    private bool isLoggedIn = false;
+    private string userName = string.Empty;
+    private DotNetObjectReference<LoginStatus> objRef;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        await CheckLoginStatus();
+        Navigation.LocationChanged += OnLocationChanged;
+    }
+    
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            objRef = DotNetObjectReference.Create(this);
+            await JSRuntime.InvokeVoidAsync("setupStorageListener", objRef);
+        }
+    }
+    
+    private async void OnLocationChanged(object sender, LocationChangedEventArgs e)
+    {
+        await CheckLoginStatus();
+        StateHasChanged();
+    }
+    
+    private async Task CheckLoginStatus()
+    {
+        isLoggedIn = await UserSessionService.IsUserLoggedInAsync();
+        if (isLoggedIn)
+        {
+            var user = await UserSessionService.GetCurrentUserAsync();
+            userName = user?.Name ?? "User";
+        }
+    }
+    
+    [JSInvokable]
+    public async Task OnStorageChanged()
+    {
+        await CheckLoginStatus();
+        await InvokeAsync(StateHasChanged);
+    }
+    
+    private async Task HandleLogout()
+    {
+        await UserSessionService.ClearUserSessionAsync();
+        isLoggedIn = false;
+        userName = string.Empty;
+        Navigation.NavigateTo("/");
+    }
+
+    private async Task HandleLogin()
+    {
+        Navigation.NavigateTo("/login");
+    }
+    
+    public void Dispose()
+    {
+        Navigation.LocationChanged -= OnLocationChanged;
+        objRef?.Dispose();
+    }
+}

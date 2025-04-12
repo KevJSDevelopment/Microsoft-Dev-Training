@@ -35,12 +35,24 @@ namespace EventEase.Services
         
         public void AddUser(Event registeredEvent, User newUser)
         {
+            if (IsUserRegistered(registeredEvent, newUser))
+            {
+                throw new InvalidOperationException("You are already registered for this event.");
+            }
+    
             registeredEvent.RegisteredUsers.Add(newUser);
         }
 
         public Event GetEventById(int eventId)
         {
             return _events.FirstOrDefault(e => e.Id == eventId);
+        }
+        
+        // Add this method to EventService.cs
+        public bool IsUserRegistered(Event registeredEvent, User user)
+        {
+            return registeredEvent.RegisteredUsers.Any(u => 
+                u.Email.Equals(user.Email, StringComparison.OrdinalIgnoreCase));
         }
     }
 }

@@ -1,0 +1,91 @@
+﻿@page "/login"
+@using EventEase.Models
+@using EventEase.Services
+@inject NavigationManager Navigation
+@inject IEventService EventService
+@inject IUserSessionService UserSessionService
+@inject IUserService UserService
+@inject IJSRuntime JSRuntime
+
+<PageTitle>Login</PageTitle>
+
+<div class="container">
+    <h2>Login</h2>
+    
+    @if (showSuccessMessage)
+    {
+        <div class="alert alert-success">
+            Login successful! Redirecting...
+        </div>
+    }
+    
+    <EditForm Model="newUser" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="mb-3">
+            <label for="name">Name:</label>
+            <InputText id="name" @bind-Value="newUser.Name" class="form-control" />
+            <ValidationMessage For="@(() => newUser.Name)" />
+        </div>
+        
+        <div class="mb-3">
+            <label for="email">Email:</label>
+            <InputText id="email" @bind-Value="newUser.Email" class="form-control" />
+            <ValidationMessage For="@(() => newUser.Email)" />
+        </div>
+        <button type="submit" class="btn btn-success">Login</button>
+        <a href="/" class="btn btn-secondary">Cancel</a>
+    </EditForm>
+</div>
+
+@code {
+    private User newUser = new User();
+    private bool showSuccessMessage = false;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        // Check if user is already logged in
+        var existingUser = await UserSessionService.GetCurrentUserAsync();
+        if (existingUser != null)
+        {
+            // Pre-populate the form with existing user data
+            newUser = new User 
+            { 
+                Id = existingUser.Id,
+                Name = existingUser.Name,
+                Email = existingUser.Email,
+            };
+        }
+        else
+        {
+            // Generate new user ID
+            newUser.Id = UserService.GetUsers().Count + 1;
+        }
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        try
+        {
+            // Save user session to local storage
+            await UserSessionService.SaveUserSessionAsync(newUser);
+            
+            // Trigger a storage event to notify other tabs/components
+            await JSRuntime.InvokeVoidAsync("localStorage.setItem", "userLoginUpdate", DateTime.Now.ToString());
+            
+            // Show success message
+            showSuccessMessage = true;
+        
+            // Navigate back to home after a short delay
+            await Task.Delay(2000);
+            Navigation.NavigateTo("/");
+        }
+        catch (Exception ex)
+        {
+            // Log error (you can implement proper logging)
+            Console.WriteLine($"Registration error: {ex.Message}");
+            // You could set an error message property here to display to user
+        }
+    }
+}

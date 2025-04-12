@@ -3,56 +3,159 @@
 @using EventEase.Services
 @inject NavigationManager Navigation
 @inject IEventService EventService
+@inject IUserSessionService UserSessionService
 
 <PageTitle>Register New User</PageTitle>
 
-<EditForm Model="newUser" OnValidSubmit="HandleValidSubmit">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
-
-    <div class="mb-3">
-        <label for="name">Name:</label>
-        <InputText id="name" @bind-Value="newUser.Name" class="form-control" />
-        <ValidationMessage For="@(() => newUser.Name)" />
-    </div>
+<div class="container">
+    <h2>Register for Event</h2>
     
-    <div class="mb-3">
-        <label for="email">Email:</label>
-        <InputText id="email" @bind-Value="newUser.Email" class="form-control" />
-        <ValidationMessage For="@(() => newUser.Email)" />
-    </div>
+    @if (currentEvent == null)
+    {
+        <div class="alert alert-danger">
+            Event not found. Please return to the <a href="/">home page</a>.
+        </div>
+    }
+    else
+    {
+        <div class="mb-4">
+            <h3>Event: @currentEvent.Name</h3>
+            <p>Date: @currentEvent.StartDate.ToString("MM/dd/yyyy")</p>
+            <p>Location: @currentEvent.Location</p>
+        </div>
 
-    <button type="submit" class="btn btn-success">Save User</button>
-    <a href="/" class="btn btn-secondary">Cancel</a>
-</EditForm>
+        @if (showSuccessMessage)
+        {
+            <div class="alert alert-success">
+                Registration successful! You are now registered for @currentEvent.Name.
+            </div>
+        }
+        
+        @if (showAlreadyRegisteredMessage)
+        {
+            <div class="alert alert-warning">
+                You are already registered for @currentEvent.Name. Please return to the <a href="/">home page</a>.
+            </div>
+        }
+        
+        @if (showErrorMessage)
+        {
+            <div class="alert alert-danger">
+                @errorMessage
+            </div>
+        }
+
+        @if (!isAlreadyRegistered)
+        {
+            <EditForm Model="newUser" OnValidSubmit="HandleValidSubmit">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <div class="mb-3">
+                    <label for="name">Name:</label>
+                    <InputText id="name" @bind-Value="newUser.Name" class="form-control" />
+                    <ValidationMessage For="@(() => newUser.Name)" />
+                </div>
+                
+                <div class="mb-3">
+                    <label for="email">Email:</label>
+                    <InputText id="email" @bind-Value="newUser.Email" class="form-control" />
+                    <ValidationMessage For="@(() => newUser.Email)" />
+                </div>
+
+                <button type="submit" class="btn btn-success">Register</button>
+                <a href="/" class="btn btn-secondary">Cancel</a>
+            </EditForm>
+        }
+    }
+</div>
 
 @code {
-
     [Parameter]
     public int EventId { get; set; }
     
     private User newUser = new User();
     private Event currentEvent;
-        
-    protected override void OnInitialized()
+    private bool showSuccessMessage = false;
+    private bool showAlreadyRegisteredMessage = false;
+    private bool showErrorMessage = false;
+    private string errorMessage = string.Empty;
+    private bool isAlreadyRegistered = false;
+    
+    protected override async Task OnInitializedAsync()
     {
         currentEvent = EventService.GetEventById(EventId);
-    
-        if (currentEvent == null)
+        
+        // If event doesn't exist, leave the currentEvent as null
+        if (currentEvent == null) return;
+        
+        // Check if user is already logged in
+        var existingUser = await UserSessionService.GetCurrentUserAsync();
+        if (existingUser != null)
         {
-            // Handle missing event
-            Navigation.NavigateTo("/");
-            return;
+            // Pre-populate the form with existing user data
+            newUser = new User 
+            { 
+                Id = existingUser.Id,
+                Name = existingUser.Name,
+                Email = existingUser.Email,
+            };
+            
+            // Check if user is already registered
+            isAlreadyRegistered = EventService.IsUserRegistered(currentEvent, existingUser);
+            if (isAlreadyRegistered)
+            {
+                showAlreadyRegisteredMessage = true;
+            }
         }
-    
-        newUser.Id = currentEvent.RegisteredUsers.Count + 1;
+        else
+        {
+            // Generate new user ID
+            newUser.Id = currentEvent.RegisteredUsers.Count + 1;
+        }
     }
 
-    private void HandleValidSubmit()
+    private async Task HandleValidSubmit()
     {
-        // Add to service
-        EventService.AddUser(currentEvent, newUser);
-        // Navigate back to home
-        Navigation.NavigateTo("/");
+        try
+        {
+            // Check again if user is already registered (in case they changed the email)
+            if (EventService.IsUserRegistered(currentEvent, newUser))
+            {
+                showAlreadyRegisteredMessage = true;
+                isAlreadyRegistered = true;
+                return;
+            }
+            
+            // Clear error messages
+            showErrorMessage = false;
+            showAlreadyRegisteredMessage = false;
+            
+            // Add user to event
+            EventService.AddUser(currentEvent, newUser);
+            
+            // Save user session to local storage
+            await UserSessionService.SaveUserSessionAsync(newUser);
+            
+            // Show success message
+            showSuccessMessage = true;
+        
+            // Navigate back to home after a short delay
+            await Task.Delay(2000);
+            Navigation.NavigateTo("/");
+        }
+        catch (InvalidOperationException ex)
+        {
+            // Show already registered message
+            showAlreadyRegisteredMessage = true;
+            isAlreadyRegistered = true;
+        }
+        catch (Exception ex)
+        {
+            // Show general error message
+            errorMessage = $"Registration error: {ex.Message}";
+            showErrorMessage = true;
+            Console.WriteLine(errorMessage);
+        }
     }
 }
