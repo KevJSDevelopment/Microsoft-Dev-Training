@@ -1,0 +1,14 @@
+﻿@using EventEase.Models
+
+<li class="card m-2 w-50 align-items-center">
+    <h2>@Event.Name</h2>
+    <p>@Event.StartDate.ToString("MM/dd/yyyy")</p>
+    <p>@Event.Location</p>
+    <p>People Registered: @Event.RegisteredUsers.Count</p>
+    <NavLink href="@($"/register-user/{Event.Id}")" class="btn btn-outline-primary m-2 w-50">Sign up for @Event.Name</NavLink>
+</li>
+
+@code {
+    [Parameter]
+    public Event Event { get; set; }
+}

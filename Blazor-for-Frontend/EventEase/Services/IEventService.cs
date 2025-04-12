@@ -7,6 +7,7 @@ namespace EventEase.Services
     {
         List<Event> GetEvents();
         void AddEvent(Event newEvent);
-        // Add other methods as needed (GetEventById, UpdateEvent, DeleteEvent)
+        void AddUser(Event registeredEvent, User newUser);
+        Event GetEventById(int eventId);
     }
 }

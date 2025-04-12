@@ -32,5 +32,15 @@ namespace EventEase.Services
             
             _events.Add(newEvent);
         }
+        
+        public void AddUser(Event registeredEvent, User newUser)
+        {
+            registeredEvent.RegisteredUsers.Add(newUser);
+        }
+
+        public Event GetEventById(int eventId)
+        {
+            return _events.FirstOrDefault(e => e.Id == eventId);
+        }
     }
 }

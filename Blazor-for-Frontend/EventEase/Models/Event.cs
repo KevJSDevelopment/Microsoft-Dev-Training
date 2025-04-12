@@ -4,6 +4,10 @@ namespace EventEase.Models
 {
     public class Event
     {
+        public Event()
+        {
+            RegisteredUsers = new List<User>();
+        }
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Event name is required")]
@@ -16,5 +20,6 @@ namespace EventEase.Models
         [Required(ErrorMessage = "Location is required")]
         [StringLength(200, ErrorMessage = "Location cannot exceed 200 characters")]
         public string Location { get; set; }
+        public List<User> RegisteredUsers { get; set; } 
     }
 }

@@ -1,0 +1,58 @@
+﻿@page "/register-user/{EventId:int}"
+@using EventEase.Models
+@using EventEase.Services
+@inject NavigationManager Navigation
+@inject IEventService EventService
+
+<PageTitle>Register New User</PageTitle>
+
+<EditForm Model="newUser" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="mb-3">
+        <label for="name">Name:</label>
+        <InputText id="name" @bind-Value="newUser.Name" class="form-control" />
+        <ValidationMessage For="@(() => newUser.Name)" />
+    </div>
+    
+    <div class="mb-3">
+        <label for="email">Email:</label>
+        <InputText id="email" @bind-Value="newUser.Email" class="form-control" />
+        <ValidationMessage For="@(() => newUser.Email)" />
+    </div>
+
+    <button type="submit" class="btn btn-success">Save User</button>
+    <a href="/" class="btn btn-secondary">Cancel</a>
+</EditForm>
+
+@code {
+
+    [Parameter]
+    public int EventId { get; set; }
+    
+    private User newUser = new User();
+    private Event currentEvent;
+        
+    protected override void OnInitialized()
+    {
+        currentEvent = EventService.GetEventById(EventId);
+    
+        if (currentEvent == null)
+        {
+            // Handle missing event
+            Navigation.NavigateTo("/");
+            return;
+        }
+    
+        newUser.Id = currentEvent.RegisteredUsers.Count + 1;
+    }
+
+    private void HandleValidSubmit()
+    {
+        // Add to service
+        EventService.AddUser(currentEvent, newUser);
+        // Navigate back to home
+        Navigation.NavigateTo("/");
+    }
+}

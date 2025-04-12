@@ -1,12 +1,12 @@
 ﻿@page "/"
 @using EventEase.Models
 @using EventEase.Services
+@using EventEase.Components
 @inject IEventService EventService
 
 <PageTitle>Home</PageTitle>
 
 <h3>Upcoming Events</h3>
-
 @if (events == null || !events.Any())
 {
     <p>No events available.</p>
@@ -20,9 +20,6 @@ else
         }
     </ul>
 }
-
-<NavLink href="/register-event" class="btn btn-primary">Register New Event</NavLink>
-
 @code {
     private List<Event> events;
 
