@@ -1,9 +1,20 @@
-﻿namespace EventEase.Models;
+﻿using System.ComponentModel.DataAnnotations;
 
-public class Event
+namespace EventEase.Models
 {
-    public int Id { get; set; }
-    public string Name { get; set; }
-    public DateTime StartDate { get; set; }
-    public string Location { get; set; }
+    public class Event
+    {
+        public int Id { get; set; }
+
+        [Required(ErrorMessage = "Event name is required")]
+        [StringLength(100, ErrorMessage = "Name cannot exceed 100 characters")]
+        public string Name { get; set; }
+
+        [Required(ErrorMessage = "Start date is required")]
+        public DateTime StartDate { get; set; }
+
+        [Required(ErrorMessage = "Location is required")]
+        [StringLength(200, ErrorMessage = "Location cannot exceed 200 characters")]
+        public string Location { get; set; }
+    }
 }

@@ -1,37 +1,48 @@
 ﻿@page "/register-event"
 @using EventEase.Models
+@using EventEase.Services
+@inject IEventService EventService
 @inject NavigationManager Navigation
 
-<PageTitle>Create New Event</PageTitle>
+<PageTitle>Register New Event</PageTitle>
 
-<h3>Create a New Event</h3>
+<h3>Register a New Event</h3>
 
-<EditForm Model="NewEvent" OnValidSubmit="HandleValidSubmit">
+<EditForm Model="newEvent" OnValidSubmit="HandleValidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
 
-    <div>
-        <label>Name:</label>
-        <InputText @bind-Value="NewEvent.Name" class="form-control" />
+    <div class="mb-3">
+        <label for="name">Name:</label>
+        <InputText id="name" @bind-Value="newEvent.Name" class="form-control" />
+        <ValidationMessage For="@(() => newEvent.Name)" />
     </div>
-    <div>
-        <label>Location:</label>
-        <InputText @bind-Value="NewEvent.Location" class="form-control" />
+
+    <div class="mb-3">
+        <label for="location">Location:</label>
+        <InputText id="location" @bind-Value="newEvent.Location" class="form-control" />
+        <ValidationMessage For="@(() => newEvent.Location)" />
     </div>
-    <div>
-        <label>Date and Time:</label>
-        <InputDate @bind-Value="NewEvent.StartDate" class="form-control" />
+
+    <div class="mb-3">
+        <label for="startDate">Start Date:</label>
+        <InputDate id="startDate" @bind-Value="newEvent.StartDate" class="form-control" />
+        <ValidationMessage For="@(() => newEvent.StartDate)" />
     </div>
-    <button type="submit" class="btn btn-primary">Save Event</button>
+
+    <button type="submit" class="btn btn-success">Save Event</button>
+    <a href="/" class="btn btn-secondary">Cancel</a>
 </EditForm>
 
 @code {
-    private Event NewEvent = new Event(); // Holds the new event data.
+    private Event newEvent = new Event { StartDate = DateTime.Now.AddDays(1) };
 
-    private async Task HandleValidSubmit()
+    private void HandleValidSubmit()
     {
-        // Trigger the save event logic (e.g., redirect to home passing the new event)
-        Home.Events.Add(NewEvent); // Adding to the shared list
-        Navigation.NavigateTo("/"); // Navigate back to the home page
+        // Add to service
+        EventService.AddEvent(newEvent);
+        
+        // Navigate back to home
+        Navigation.NavigateTo("/");
     }
 }
