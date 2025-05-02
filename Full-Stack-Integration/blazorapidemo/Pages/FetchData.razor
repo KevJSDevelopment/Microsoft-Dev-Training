@@ -1,0 +1,46 @@
+@page "/fetchdata"
+@inject HttpClient Http
+
+<h3>Posts</h3>
+
+@if(posts.Count > 0)
+{
+<ul>
+    @foreach (var post in posts)
+    {
+        <li>
+            <p>
+                @post.Title
+            </p>
+            <p>
+
+                @post.Body
+            </p>
+        </li>
+    }
+</ul>
+} else {
+    <p>Loading...</p>
+}
+
+@code {
+    private List<Post> posts = new();
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            posts = await Http.GetFromJsonAsync<List<Post>>("https://jsonplaceholder.typicode.com/posts");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error fetching data: {ex.Message}");
+        }
+    }   
+
+    public class Post
+    {
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public string Body { get; set; }
+    }
+}
