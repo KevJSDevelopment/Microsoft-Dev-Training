@@ -1,0 +1,32 @@
+@page "/cart"
+<h3>Shopping Cart</h3>
+<input @bind="newItem" placeholder="Add new item" />
+<button @onclick="AddItem">Add</button>
+<ul>
+    @foreach (var item in cartItems)
+    {
+        <li>@item</li>
+    }
+</ul>
+
+@inject Blazored.SessionStorage.ISessionStorageService sessionStorage
+
+@code {
+    private string newItem = string.Empty;
+    private List<string> cartItems = new List<string>();
+
+    private async Task AddItem()
+    {
+        if (!string.IsNullOrWhiteSpace(newItem))
+        {
+            cartItems.Add(newItem);
+            await sessionStorage.SetItemAsync("cartItems", cartItems);
+            newItem = string.Empty;
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        cartItems = await sessionStorage.GetItemAsync<List<string>>("cartItems") ?? new List<string>();
+    }
+}
