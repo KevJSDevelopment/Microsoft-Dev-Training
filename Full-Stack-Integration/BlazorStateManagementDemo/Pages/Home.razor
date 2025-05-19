@@ -1,0 +1,41 @@
+﻿@page "/"
+<h3>Theme Selector</h3>
+<button @onclick="ToggleTheme">Toggle Theme</button>
+<button @onclick="ClearStorage">Clear all storage</button>
+<p>Current Theme: @theme</p>
+
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+@inject Blazored.SessionStorage.ISessionStorageService sessionStorage
+
+@code {
+    private string theme = "light";
+
+    private async Task ToggleTheme()
+    {
+        theme = theme == "light" ? "dark" : "light";
+        await localStorage.SetItemAsync("theme", theme);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var storedTheme = await localStorage.GetItemAsync<string>("theme");
+        if (!string.IsNullOrEmpty(storedTheme))
+        {
+            theme = storedTheme;
+        }
+        else
+        {
+            storedTheme = await sessionStorage.GetItemAsync<string>("theme");
+            if (!string.IsNullOrEmpty(storedTheme))
+            {
+                theme = storedTheme;
+            }
+        }
+    }
+
+    private void ClearStorage()
+    {
+        localStorage.ClearAsync();
+        sessionStorage.ClearAsync();
+    }
+}
