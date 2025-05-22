@@ -1,0 +1,57 @@
+@page "/fetchproducts"
+@using System.Text.Json
+@inject HttpClient Http;
+
+<h3>Product List</h3>
+
+<ul>
+   @if (products != null)
+    {
+        foreach (var product in products)
+        {
+            <li>@product.name: $@product.price</li>
+        }
+    }
+    else
+    {
+        <li>Loading...</li>
+    }
+</ul>
+
+
+@code {
+    private Product[]? products;
+    protected override async Task OnInitializedAsync()
+    {
+        // API call logic will go here
+        var response = await Http.GetAsync("http://localhost:5001/api/productList");
+        
+        if (response.IsSuccessStatusCode)
+        {
+            var json = await response.Content.ReadAsStringAsync();
+            try
+            {
+                products = JsonSerializer.Deserialize<Product[]>(json);
+            }
+            catch (JsonException ex)
+            {
+                Console.WriteLine($"JSON deserialization error: {ex.Message}");
+                products = null;
+            }
+        }
+        else
+        {
+            var errorContent = await response.Content.ReadAsStringAsync();
+            Console.WriteLine($"Error fetching products: {response.StatusCode} - {errorContent}");
+            return;
+        }
+    }
+
+    public class Product
+    {
+        public int id { get; set; }
+        public string name { get; set; }
+        public double price { get; set; }
+        public int stock { get; set; }
+    }
+}
