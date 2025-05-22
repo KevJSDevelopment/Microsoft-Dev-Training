@@ -9,7 +9,7 @@
     {
         foreach (var product in products)
         {
-            <li>@product.name: $@product.price</li>
+            <li>@product.name (@product.category.name): $@product.price (@product.stock)</li>
         }
     }
     else
@@ -53,5 +53,11 @@
         public string name { get; set; }
         public double price { get; set; }
         public int stock { get; set; }
+        public Category category { get; set; }
+    }
+    public class Category
+    {
+        public int id { get; set; }
+        public string name { get; set; }
     }
 }
