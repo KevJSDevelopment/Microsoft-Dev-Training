@@ -1,0 +1,8 @@
+###
+GET http://localhost:5250/
+
+### Get all roles
+GET http://localhost:5250/api/admin-only
+
+### Get a specific role by ID
+GET http://localhost:5250/api/user-claim-check
