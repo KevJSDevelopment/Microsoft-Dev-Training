@@ -40,5 +40,28 @@ app.MapGet("/account/login", () => "User route for login");
 
 var roles = new[] { "Admin", "User" };
 
+app.MapPost("/api/create-role", async (RoleManager<IdentityRole> roleManager) =>
+{
+    foreach (var role in roles)
+    {
+        if (!await roleManager.RoleExistsAsync(role))
+        {
+            await roleManager.CreateAsync(new IdentityRole(role));
+        }
+    }
+    return Results.Ok("Roles created");
+});
+
+app.MapPost("/api/assign-role", async (UserManager<IdentityUser> userManager) =>
+{
+    var user = new IdentityUser { UserName = "testuser", Email = "testuser@example.com" };
+    await userManager.CreateAsync(user, "Password123!");
+    await userManager.AddToRoleAsync(user, "Admin");
+
+    var isInRole = await userManager.IsInRoleAsync(user, "Admin");
+
+    return isInRole ? Results.Ok("User assigned to Admin role") : Results.BadRequest("Failed to assign role");
+});
+
 app.Run();
 
