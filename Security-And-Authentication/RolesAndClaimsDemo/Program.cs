@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -25,16 +26,18 @@ builder.Services.ConfigureApplicationCookie(options =>
 });
 
 builder.Services.AddAuthentication();
-builder.Services.AddAuthorizationBuilder();
+builder.Services.AddAuthorizationBuilder()
+    .AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"))
+    .AddPolicy("ItDepartment", policy => policy.RequireClaim("Department", "IT"));
 
 var app = builder.Build();
 
 app.MapGet("/", () => "Hello World!");
 app.MapGet("/api/admin-only", () => "Admin Only Area")
-    .RequireAuthorization();
+    .RequireAuthorization("AdminOnly");
 
 app.MapGet("/api/user-claim-check", () => "Access granted to IT department users only")
-    .RequireAuthorization(policy => policy.RequireClaim("Department", "IT"));
+    .RequireAuthorization("ItDepartment");
 
 app.MapGet("/account/login", () => "User route for login");
 
@@ -61,6 +64,24 @@ app.MapPost("/api/assign-role", async (UserManager<IdentityUser> userManager) =>
     var isInRole = await userManager.IsInRoleAsync(user, "Admin");
 
     return isInRole ? Results.Ok("User assigned to Admin role") : Results.BadRequest("Failed to assign role");
+});
+
+app.MapPost("/api/login", async (SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager) =>
+{
+    var user = await userManager.FindByEmailAsync("testuser@example.com");
+    if (user == null) return Results.NotFound("User not found");
+
+    await signInManager.SignInAsync(user, isPersistent: false);
+    return Results.Ok("User signed in!");
+});
+
+app.MapPost("/api/add-claim", async (UserManager<IdentityUser> userManager) =>
+{
+    var user = await userManager.FindByEmailAsync("testuser@example.com");
+    if (user == null) return Results.NotFound("User not found");
+
+    await userManager.AddClaimAsync(user, new Claim("Department", "IT"));
+    return Results.Ok("User added to IT department!");
 });
 
 app.Run();
