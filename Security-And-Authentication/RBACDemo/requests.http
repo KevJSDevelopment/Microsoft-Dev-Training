@@ -1,0 +1,105 @@
+### @name lmsAdminLogin
+POST http://localhost:5161/api/login
+Content-Type: application/json
+
+{
+  "username": "lmsadmin",
+  "password": "Admin@123"
+}
+
+### @name instructorLogin
+POST http://localhost:5161/api/login
+Content-Type: application/json
+
+{
+  "username": "instructor1",
+  "password": "Instr@123"
+}
+
+### @name studentLogin
+POST http://localhost:5161/api/login
+Content-Type: application/json
+
+{
+  "username": "student1",
+  "password": "Stud@123"
+}
+
+### @name guestLogin
+POST http://localhost:5161/api/login
+Content-Type: application/json
+
+{
+  "username": "guest1",
+  "password": "Guest@123"
+}
+
+### @name bankAdminLogin
+POST http://localhost:5161/api/login
+Content-Type: application/json
+
+{
+  "username": "bankadmin",
+  "password": "Admin@123"
+}
+
+### @name tellerLogin
+POST http://localhost:5161/api/login
+Content-Type: application/json
+
+{
+  "username": "teller1",
+  "password": "Tell@123"
+}
+
+### @name auditorLogin
+POST http://localhost:5161/api/login
+Content-Type: application/json
+
+{
+  "username": "auditor1",
+  "password": "Audi@123"
+}
+
+### @name customerLogin
+POST http://localhost:5161/api/login
+Content-Type: application/json
+
+{
+  "username": "customer1",
+  "password": "Cust@123"
+}
+
+### LMS Admin - Manage Users
+GET http://localhost:5161/api/lms/users
+Authorization: Bearer {{lmsAdminLogin.response.body.token}}
+
+### Instructor - Manage Courses
+GET http://localhost:5161/api/lms/courses
+Authorization: Bearer {{instructorLogin.response.body.token}}
+
+### Student - View Courses
+GET http://localhost:5161/api/lms/courses
+Authorization: Bearer {{studentLogin.response.body.token}}
+
+### Guest - View Public Courses
+GET http://localhost:5161/api/lms/public-courses
+Authorization: Bearer {{guestLogin.response.body.token}}
+
+### Bank Endpoint Calls
+
+### Bank Admin - Manage Accounts
+GET http://localhost:5161/api/bank/accounts
+Authorization: Bearer {{bankAdminLogin.response.body.token}}
+
+### Teller - Process Transactions
+POST http://localhost:5161/api/bank/transactions
+Authorization: Bearer {{tellerLogin.response.body.token}}
+
+### Auditor - View Logs
+GET http://localhost:5161/api/bank/logs
+Authorization: Bearer {{auditorLogin.response.body.token}}
+
+### Customer - View Account Details
+GET http://localhost:5161/api/bank/account-details
+Authorization: Bearer {{customerLogin.response.body.token}}
